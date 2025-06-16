@@ -62,6 +62,13 @@ def extract_text_from_pdf(pdf_path):
     text = "\n".join([page.get_text() for page in doc])
     return text
 
+# Selezione automatica del PDF di default dalla cartella media
+media_dir = "media"
+available_pdfs = [f for f in os.listdir(media_dir) if f.lower().endswith(".pdf")]
+default_pdf = None
+if available_pdfs:
+    default_pdf = available_pdfs[0]
+
 # Carica un documento (PDF o Excel) dalla sidebar
 uploaded_file = st.sidebar.file_uploader("📄 Carica il documento da memorizzare", type=["pdf", "xlsx", "xls"])
 if uploaded_file:
@@ -89,7 +96,12 @@ if uploaded_file:
             if any(field.strip() for field in row)
         )
         st.session_state.pdf_text = excel_text
-        st.sidebar.success("Excel caricato e analizzato con successo!")    
+        st.sidebar.success("Excel caricato e analizzato con successo!")
+elif default_pdf:
+    # Se non viene caricato nulla dall'utente, uso il PDF di default
+    default_path = os.path.join(media_dir, default_pdf)
+    st.session_state.pdf_text = extract_text_from_pdf(default_path)
+    st.sidebar.info(f"PDF pre-caricato: '{default_pdf}'")
 
 #st.warning(sys.getsizeof(st.session_state.pdf_text), icon="⚠️")
 
@@ -125,7 +137,7 @@ if st.session_state.show_tone_settings:
         st.session_state.tone_of_voice = DEFAULT_TONE
 
 # Visualizza la chat
-st.title("🤖 Chiedi a MIDA")
+st.title("🤖 Chiedi a MIDA ARGO")
 if not st.session_state.selected_chat:
     st.write("Seleziona una conversazione o creane una nuova dalla barra laterale.")
 else:
