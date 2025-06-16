@@ -81,7 +81,8 @@ if not st.session_state.selected_chat:
     st.session_state.selected_chat = st.session_state.chats[0]["id"]
 
 # Mostra il logo dell'app
-st.image("media/LANDINI_Logo.png", width=350)
+# st.image("media/mida_logo_1000.png", width=350)
+st.image("media/landini_logo_web.png", width=350)
 
 # Funzione per estrarre testo dal PDF
 def extract_text_from_pdf(pdf_path):
