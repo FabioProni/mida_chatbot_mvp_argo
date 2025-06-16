@@ -53,6 +53,12 @@ if "tone_of_voice" not in st.session_state:
 if "messages" not in st.session_state:
     st.session_state.messages = []  # Memorizza la chat corrente
 
+# Se non esiste alcuna conversazione, ne creo una ed apro la prima
+if not st.session_state.chats:
+    st.session_state.chats.append({"id": "Conversazione 1", "messages": []})
+if not st.session_state.selected_chat:
+    st.session_state.selected_chat = st.session_state.chats[0]["id"]
+
 # Mostra il logo dell'app
 st.image("media/mida_logo_1000.png", width=350)
 
