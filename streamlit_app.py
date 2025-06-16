@@ -6,6 +6,23 @@ import os
 import tempfile
 import sys
 
+# Inietta CSS per personalizzare il colore delle icone nella chat
+st.markdown(
+    """
+    <style>
+      /* Icona utente (umano) */
+      [data-testid="stHorizontalBlock"] [data-testid="stAvatar"][aria-label="user avatar"] svg path {
+        fill: #4CAF50 !important;  /* utente */
+      }
+      /* Icona assistente (robot) */
+      [data-testid="stHorizontalBlock"] [data-testid="stAvatar"][aria-label="assistant avatar"] svg path {
+        fill: #00a1df !important;  /* robot */
+      }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Controllo autenticazione
 if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
@@ -60,7 +77,7 @@ if not st.session_state.selected_chat:
     st.session_state.selected_chat = st.session_state.chats[0]["id"]
 
 # Mostra il logo dell'app
-st.image("media/mida_logo_1000.png", width=350)
+st.image("media/LANDINI_Logo.png", width=350)
 
 # Funzione per estrarre testo dal PDF
 def extract_text_from_pdf(pdf_path):
@@ -144,7 +161,7 @@ if st.session_state.show_tone_settings:
         st.session_state.tone_of_voice = DEFAULT_TONE
 
 # Visualizza la chat
-st.title("🤖 Chiedi a MIDA ARGO tutto sul REX 4")
+st.title("🤖 Chiedi a ARGOBOT tutto sul REX 4")
 if not st.session_state.selected_chat:
     st.write("Seleziona una conversazione o creane una nuova dalla barra laterale.")
 else:
