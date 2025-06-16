@@ -32,7 +32,7 @@ if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 
 if not st.session_state.authenticated:
-    st.title("🔒 Accesso a Landini ARBO BOT")
+    st.title("🔒 Accesso a demo")
     password = st.text_input("Inserisci la password per accedere:", type="password")
     
     if st.button("Accedi"):
