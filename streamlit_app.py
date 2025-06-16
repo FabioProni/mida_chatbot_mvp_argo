@@ -76,38 +76,39 @@ if available_pdfs:
     default_pdf = available_pdfs[0]
 
 # Carica un documento (PDF o Excel) dalla sidebar
-uploaded_file = st.sidebar.file_uploader("📄 Carica il documento da memorizzare", type=["pdf", "xlsx", "xls"])
-if uploaded_file:
-    file_ext = uploaded_file.name.split('.')[-1].lower()
-    if file_ext == "pdf":
-        # Salva il file temporaneamente e ne estrae il testo
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
-            temp_file.write(uploaded_file.read())
-            temp_pdf_path = temp_file.name
-        st.session_state.pdf_text = extract_text_from_pdf(temp_pdf_path)
-        st.sidebar.success("PDF caricato e analizzato con successo!")
-    elif file_ext in ["xlsx", "xls"]:
-        # Usa Pandas per leggere il file Excel e convertirlo in una stringa
-        df = pd.read_excel(uploaded_file)
-        # Pulizia avanzata del DataFrame
-        cleaned_data = (
-            df.fillna('')  # Sostituisce i NaN con stringhe vuote
-            .applymap(lambda x: str(x).strip() if pd.notnull(x) else '')  # Rimuove spazi extra e converte a stringa
-            .replace(r'^\s*$', '', regex=True)  # Sostituisce celle vuote/whitespace con stringa vuota
-        )
-        # Generazione testo compatto
-        excel_text = "\n".join(
-            "|".join(row) 
-            for row in cleaned_data.astype(str).values
-            if any(field.strip() for field in row)
-        )
-        st.session_state.pdf_text = excel_text
-        st.sidebar.success("Excel caricato e analizzato con successo!")
-elif default_pdf:
+if default_pdf:
     # Se non viene caricato nulla dall'utente, uso il PDF di default
     default_path = os.path.join(media_dir, default_pdf)
     st.session_state.pdf_text = extract_text_from_pdf(default_path)
     st.sidebar.info(f"PDF pre-caricato: '{default_pdf}'")
+else:
+    uploaded_file = st.sidebar.file_uploader("📄 Carica il documento da memorizzare", type=["pdf", "xlsx", "xls"])
+    if uploaded_file:
+        file_ext = uploaded_file.name.split('.')[-1].lower()
+        if file_ext == "pdf":
+            # Salva il file temporaneamente e ne estrae il testo
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
+                temp_file.write(uploaded_file.read())
+                temp_pdf_path = temp_file.name
+            st.session_state.pdf_text = extract_text_from_pdf(temp_pdf_path)
+            st.sidebar.success("PDF caricato e analizzato con successo!")
+        elif file_ext in ["xlsx", "xls"]:
+            # Usa Pandas per leggere il file Excel e convertirlo in una stringa
+            df = pd.read_excel(uploaded_file)
+            # Pulizia avanzata del DataFrame
+            cleaned_data = (
+                df.fillna('')  # Sostituisce i NaN con stringhe vuote
+                .applymap(lambda x: str(x).strip() if pd.notnull(x) else '')  # Rimuove spazi extra e converte a stringa
+                .replace(r'^\s*$', '', regex=True)  # Sostituisce celle vuote/whitespace con stringa vuota
+            )
+            # Generazione testo compatto
+            excel_text = "\n".join(
+                "|".join(row) 
+                for row in cleaned_data.astype(str).values
+                if any(field.strip() for field in row)
+            )
+            st.session_state.pdf_text = excel_text
+            st.sidebar.success("Excel caricato e analizzato con successo!")
 
 #st.warning(sys.getsizeof(st.session_state.pdf_text), icon="⚠️")
 
