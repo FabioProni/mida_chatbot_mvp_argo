@@ -144,7 +144,7 @@ if st.session_state.show_tone_settings:
         st.session_state.tone_of_voice = DEFAULT_TONE
 
 # Visualizza la chat
-st.title("🤖 Chiedi a MIDA ARGO")
+st.title("🤖 Chiedi a MIDA ARGO tutto sul REX 4")
 if not st.session_state.selected_chat:
     st.write("Seleziona una conversazione o creane una nuova dalla barra laterale.")
 else:
