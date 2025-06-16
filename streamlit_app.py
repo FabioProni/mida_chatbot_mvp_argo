@@ -18,6 +18,10 @@ st.markdown(
       [data-testid="stHorizontalBlock"] [data-testid="stAvatar"][aria-label="assistant avatar"] svg path {
         fill: #00a1df !important;  /* robot */
       }
+
+      .st-emotion-cache-16tyu1 h1 {
+        font-size: 2.50rem !important;
+      }
     </style>
     """,
     unsafe_allow_html=True
@@ -28,7 +32,7 @@ if 'authenticated' not in st.session_state:
     st.session_state.authenticated = False
 
 if not st.session_state.authenticated:
-    st.title("🔒 Accesso a Mida Argo MVP")
+    st.title("🔒 Accesso a Landini ARBO BOT")
     password = st.text_input("Inserisci la password per accedere:", type="password")
     
     if st.button("Accedi"):
