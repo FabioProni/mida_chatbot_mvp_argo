@@ -17,3 +17,10 @@ A simple Streamlit app template for you to modify!
    ```
    $ streamlit run streamlit_app.py
    ```
+
+deploy:
+git init .
+git commit -m "first commit"
+git push -u origin main
+
+run: streamlit run /workspaces/mida_chatbot_mvp_argo/streamlit_app.py
